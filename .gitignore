@@ -1,0 +1,9 @@
+node_modules/
+.env
+server/.env
+server/uploads/generated/*
+server/uploads/question-papers/*
+server/uploads/combined/*
+!server/uploads/**/.gitkeep
+dist/
+.DS_Store

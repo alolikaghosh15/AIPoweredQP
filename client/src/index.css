@@ -1,0 +1,559 @@
+/* ======================================================
+   DESIGN TOKENS
+====================================================== */
+
+:root {
+    --ink: #1e2a38;
+    --ink-soft: #56636f;
+    --ink-faint: #8a93a0;
+
+    --paper: #ece9e1;
+    --panel: #ffffff;
+    --rule: #d9d4c7;
+    --rule-soft: #e6e2d7;
+
+    --brass: #9c7a3c;
+    --brass-deep: #7c5f2c;
+    --brass-bg: #f1e9d6;
+
+    --sage: #45624b;
+    --sage-bg: #e3ebe2;
+
+    --rust: #8f4335;
+    --rust-bg: #f2e3df;
+
+    --slate-bg: #e7e6dd;
+
+    --serif: "Source Serif 4", Georgia, serif;
+    --sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+
+    --radius: 4px;
+    --radius-sm: 3px;
+}
+
+/* ======================================================
+   RESET + BASE
+====================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--serif);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 6px;
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 26px;
+}
+
+h2 {
+    font-size: 19px;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+}
+
+h3 {
+    font-size: 16.5px;
+}
+
+h4 {
+    font-size: 15px;
+}
+
+p {
+    margin: 0 0 10px;
+    color: var(--ink);
+}
+
+a {
+    color: var(--brass-deep);
+}
+
+hr {
+    display: none; /* superseded by panel spacing/rules */
+}
+
+pre {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    background: var(--slate-bg);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    max-height: 420px;
+    overflow: auto;
+    color: var(--ink);
+}
+
+details summary {
+    cursor: pointer;
+    color: var(--brass-deep);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* ======================================================
+   LAYOUT SHELL
+====================================================== */
+
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 32px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+}
+
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.seal {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid var(--brass);
+    color: var(--brass-deep);
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--brass-bg);
+}
+
+.brand-name {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 16.5px;
+    color: var(--ink);
+}
+
+.brand-sub {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: -2px;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.role-chip {
+    font-size: 12.5px;
+    color: var(--brass-deep);
+    background: var(--brass-bg);
+    border: 1px solid var(--brass);
+    border-radius: 999px;
+    padding: 3px 11px;
+    font-weight: 500;
+}
+
+.user-name {
+    font-size: 14px;
+    color: var(--ink-soft);
+}
+
+.main-column {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 32px 80px;
+}
+
+.page-intro {
+    margin-bottom: 30px;
+}
+
+.page-intro h1 {
+    margin-bottom: 4px;
+}
+
+.page-intro .subline {
+    color: var(--ink-soft);
+    font-size: 15px;
+}
+
+/* ======================================================
+   PANELS (dossier sections)
+====================================================== */
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+}
+
+.panel + .panel {
+    margin-top: 0;
+}
+
+.panel-tight {
+    padding: 18px 20px;
+}
+
+.record {
+    border: 1px solid var(--rule-soft);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    background: #fdfcfa;
+}
+
+.record:last-child {
+    margin-bottom: 0;
+}
+
+.record-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.meta-line {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 4px 0 0;
+}
+
+.meta-line strong {
+    color: var(--ink);
+    font-weight: 500;
+}
+
+.empty-note {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-size: 14.5px;
+}
+
+/* ======================================================
+   FORMS
+====================================================== */
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field label {
+    display: block;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.field-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.field-row .field {
+    flex: 1 1 200px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 64px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px var(--brass-bg);
+}
+
+input[type="file"] {
+    padding: 7px 10px;
+    background: #fbfaf7;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* ======================================================
+   BUTTONS
+====================================================== */
+
+button {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    padding: 9px 16px;
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+button:hover {
+    background: var(--slate-bg);
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+button.primary,
+form button[type="submit"] {
+    background: var(--brass);
+    border-color: var(--brass);
+    color: #fff;
+}
+
+button.primary:hover,
+form button[type="submit"]:hover {
+    background: var(--brass-deep);
+    border-color: var(--brass-deep);
+}
+
+button.danger {
+    border-color: var(--rust);
+    color: var(--rust);
+}
+
+button.danger:hover {
+    background: var(--rust-bg);
+}
+
+button.link-btn {
+    border: none;
+    padding: 0;
+    color: var(--brass-deep);
+    background: none;
+    text-decoration: underline;
+}
+
+button.link-btn:hover {
+    background: none;
+    color: var(--brass);
+}
+
+.action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+/* ======================================================
+   STATUS TAGS
+====================================================== */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.status .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    flex-shrink: 0;
+}
+
+.status.draft .dot {
+    background: var(--ink-faint);
+}
+
+.status.submitted .dot,
+.status.pending_review .dot {
+    background: var(--brass);
+}
+
+.status.in_combination .dot {
+    background: var(--brass);
+}
+
+.status.approved .dot,
+.status.finalized .dot {
+    background: var(--sage);
+}
+
+.status.correction .dot,
+.status.correction_needed .dot {
+    background: var(--rust);
+}
+
+/* ======================================================
+   AUTH PAGES (Login / Register)
+====================================================== */
+
+.auth-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    padding: 24px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 34px 32px;
+}
+
+.auth-mark {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.auth-mark .seal {
+    width: 46px;
+    height: 46px;
+    font-size: 16px;
+}
+
+.auth-card h1 {
+    text-align: center;
+    font-size: 21px;
+    margin-bottom: 2px;
+}
+
+.auth-card .subline {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 26px;
+}
+
+.auth-message {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--brass-deep);
+    min-height: 18px;
+}
+
+.auth-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--ink-soft);
+}
+
+/* ======================================================
+   QUESTION PAPER WORKSPACE ENTRANCE MOTION
+====================================================== */
+
+.workspace-enter {
+    animation: workspace-in 0.32s ease;
+}
+
+@keyframes workspace-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .workspace-enter {
+        animation: none;
+    }
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 640px) {
+    .topbar {
+        padding: 12px 18px;
+    }
+
+    .main-column {
+        padding: 24px 18px 60px;
+    }
+
+    .field-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
