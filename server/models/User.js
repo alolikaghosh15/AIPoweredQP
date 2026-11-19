@@ -75,6 +75,9 @@ const userSchema = new mongoose.Schema(
             trim: true
         },
 
+        resetTokenHash: { type: String, default: "" },
+        resetTokenExpires: { type: Date },
+
         password: {
             type: String,
             required: true

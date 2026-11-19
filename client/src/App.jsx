@@ -11,6 +11,8 @@ import {
 import { API_BASE, getToken, getUser } from "./api";
 
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import HODDashboard from "./pages/HODDashboard";
 import ExamCellDashboard from "./pages/ExamCellDashboard";
@@ -100,6 +102,10 @@ function Login() {
                 {message && <p className="auth-message">{message}</p>}
 
                 <p className="auth-footer">
+                    <Link to="/forgot-password">Forgot password?</Link>
+                </p>
+
+                <p className="auth-footer">
                     Don't have an account? <Link to="/register">Register here</Link>
                 </p>
             </div>
@@ -132,6 +138,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                 <Route
                     path="/teacher-dashboard"
