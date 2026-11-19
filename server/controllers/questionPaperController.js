@@ -73,13 +73,24 @@ const getDeadlineForAssignment = async (req, res) => {
 
 const uploadQuestionPaper = async (req, res) => {
     try {
-        if (!req.file) {
+        const { assignmentId, examType } = req.body;
+        const typedText = String(req.body.typedText || "").trim();
+
+        if (!req.file && !typedText) {
             return res.status(400).json({
-                message: "Please upload a question paper"
+                message: "Upload a PDF/DOCX or type the question paper"
             });
         }
 
-        const { assignmentId, examType } = req.body;
+        if (req.file && typedText) {
+            return res.status(400).json({
+                message: "Please use either a file upload or typed questions, not both"
+            });
+        }
+
+        if (typedText.length > 50000) {
+            return res.status(400).json({ message: "Typed question paper is too long" });
+        }
 
         if (!assignmentId || !examType) {
             return res.status(400).json({
@@ -118,6 +129,21 @@ const uploadQuestionPaper = async (req, res) => {
             });
         }
 
+        let fileName;
+        let filePath;
+        let content = "";
+
+        if (req.file) {
+            fileName = req.file.originalname;
+            filePath = req.file.path;
+        } else {
+            // Typed paper: saved as a text file so download/combine work like any other paper
+            content = typedText;
+            fileName = `typed-paper-${Date.now()}.txt`;
+            filePath = path.join("uploads", "generated", fileName);
+            fs.writeFileSync(filePath, content, "utf-8");
+        }
+
         const questionPaper = await QuestionPaper.create({
             teacher: user._id,
             assignment: assignment._id,
@@ -128,8 +154,9 @@ const uploadQuestionPaper = async (req, res) => {
             semester: assignment.semester,
             examType,
             source: "manual",
-            fileName: req.file.originalname,
-            filePath: req.file.path,
+            fileName,
+            filePath,
+            content,
             status: "draft",
             feedback: ""
         });

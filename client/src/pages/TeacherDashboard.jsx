@@ -27,6 +27,7 @@ function TeacherDashboard() {
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [examType, setExamType] = useState("");
     const [questionPaperFile, setQuestionPaperFile] = useState(null);
+    const [typedPaper, setTypedPaper] = useState("");
 
     const [notesFile, setNotesFile] = useState(null);
     const [syllabusFile, setSyllabusFile] = useState(null);
@@ -182,18 +183,25 @@ function TeacherDashboard() {
     const uploadQuestionPaper = async () => {
         if (!selectedAssignment) return alert("Please select a teaching assignment.");
         if (!examType) return alert("Please select an examination.");
-        if (!questionPaperFile) return alert("Please select a question paper.");
+        if (!questionPaperFile && !typedPaper.trim()) {
+            return alert("Upload a PDF/DOCX or type the question paper.");
+        }
+        if (questionPaperFile && typedPaper.trim()) {
+            return alert("Please use either a file upload or typed questions, not both.");
+        }
         try {
             const formData = new FormData();
             formData.append("assignmentId", selectedAssignment._id);
             formData.append("examType", examType);
-            formData.append("questionPaper", questionPaperFile);
+            if (questionPaperFile) formData.append("questionPaper", questionPaperFile);
+            else formData.append("typedText", typedPaper);
             await apiRequest("/teacher/question-papers", {
                 method: "POST",
                 body: formData,
                 isFormData: true
             });
             setQuestionPaperFile(null);
+            setTypedPaper("");
             loadQuestionPapers();
         } catch (error) {
             alert(error.message);
@@ -538,12 +546,22 @@ function TeacherDashboard() {
                         ) : (
                             <>
                                 <h3 style={{ marginTop: "22px" }}>Manual question paper</h3>
-                                <p className="meta-line">PDF or DOCX only, up to 2 MB.</p>
+                                <p className="meta-line">Upload a PDF or DOCX (up to 2 MB), or type the questions below.</p>
                                 <div className="field">
                                     <input
                                         type="file"
                                         accept=".pdf,.docx"
                                         onChange={(e) => setQuestionPaperFile(e.target.files[0])}
+                                    />
+                                </div>
+                                <div className="field">
+                                    <label>Or type the question paper (include groups, marks and questions)</label>
+                                    <textarea
+                                        rows={10}
+                                        value={typedPaper}
+                                        onChange={(e) => setTypedPaper(e.target.value)}
+                                        placeholder={"Group A (1 mark x 5 questions)\n1. ...\n2. ...\n\nGroup B (5 marks x 3 questions)\n6. ..."}
+                                        style={{ width: "100%" }}
                                     />
                                 </div>
                                 <button className="primary" onClick={uploadQuestionPaper}>
@@ -711,9 +729,9 @@ function TeacherDashboard() {
                                 </div>
                             )}
 
-                            {paper.source === "ai" && paper.content && (
+                            {paper.content && (
                                 <details style={{ marginTop: "14px" }}>
-                                    <summary>Preview generated content</summary>
+                                    <summary>Preview content</summary>
                                     <pre>{paper.content}</pre>
                                 </details>
                             )}
