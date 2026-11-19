@@ -4,12 +4,6 @@ import Topbar from "../components/Topbar";
 import StatusTag from "../components/StatusTag";
 import { tweakLabel } from "../utils/tweak";
 
-const STATUS_LABELS = {
-    draft: "Draft",
-    submitted: "Submitted to HOD",
-    in_combination: "Combined by HOD"
-};
-
 function TeacherDashboard() {
     const user = getUser();
 
@@ -84,7 +78,7 @@ function TeacherDashboard() {
                     `/teacher/deadline?assignmentId=${selectedAssignment._id}&examType=${examType}`
                 );
                 setDeadlineInfo(data.deadline);
-            } catch (error) {
+            } catch {
                 setDeadlineInfo(null);
             }
         })();
